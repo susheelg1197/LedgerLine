@@ -1,3 +1,3 @@
-# README.md
+# LedgerLine
 
-TODO: Implement this file.
+A collaborative expense management system for shared groups (e.g. roommates, teams).
