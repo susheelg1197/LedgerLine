@@ -1,6 +1,6 @@
 # LedgerLine
 
-A senior-level Rails application for managing shared group expenses, balances, and settlements.
+A Rails application for managing shared group expenses, balances, and settlements.
 
 ## Features
 
