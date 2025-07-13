@@ -1,4 +1,4 @@
 class Group < ApplicationRecord
-  has_many :transactions
-  validates :name, presence: true
+  has_many :transactions, dependent: :destroy
+  has_many :users, through: :memberships
 end

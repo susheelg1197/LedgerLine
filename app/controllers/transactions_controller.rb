@@ -1,14 +1,15 @@
 class TransactionsController < ApplicationController
+  before_action :set_group
+
   def index
-    @group = Group.find(params[:group_id])
-    @transactions = @group.transactions
+    @transactions = @group.transactions.includes(:group)
   end
 
   def create
-    @group = Group.find(params[:group_id])
-    @transaction = @group.transactions.new(transaction_params)
+    @transaction = @group.transactions.new(transaction_params.merge(payer: current_user))
     if @transaction.save
-      redirect_to group_transactions_path(@group), notice: 'Transaction added.'
+      TransactionMailer.new_transaction(@transaction).deliver_later
+      redirect_to group_transactions_path(@group), notice: 'Transaction recorded.'
     else
       render :new
     end
@@ -17,6 +18,10 @@ class TransactionsController < ApplicationController
   private
 
   def transaction_params
-    params.require(:transaction).permit(:payer, :amount, :description)
+    params.require(:transaction).permit(:amount, :description)
+  end
+
+  def set_group
+    @group = Group.find(params[:group_id])
   end
 end

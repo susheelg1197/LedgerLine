@@ -3,9 +3,12 @@ class ExpenseAllocator
     @group = group
   end
 
-  def split_expenses_evenly
-    total = @group.transactions.sum(:amount)
-    per_member = total / @group.members.count
-    # Example logic to balance debts
+  def allocate
+    totals = Hash.new(0)
+    @group.transactions.each do |t|
+      totals[t.payer_id] += t.amount_cents
+    end
+    # Logic to calculate net balances
+    totals
   end
 end
